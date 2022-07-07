@@ -157,8 +157,8 @@ def pack_sdk(arch, scheme, output_path):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--arch', default='x86', dest='arch', choices=('x86', 'x64'),
-                        help='Target architecture. Supported value: x86, x64')
+    parser.add_argument('--arch', default='x86', dest='arch', choices=('x86', 'x64', 'arm', 'arm64'),
+                        help='Target architecture. Supported value: x86, x64, arm, arm64')
     parser.add_argument('--ssl_root', help='Path for OpenSSL.')
     parser.add_argument('--msdk_root', help='Path for MSDK.')
     parser.add_argument('--quic_root', help='Path to QUIC library')
