@@ -4,7 +4,7 @@
 #ifndef OWT_BASE_STREAM_FACTORY_H_
 #define OWT_BASE_STREAM_FACTORY_H_
 #include <unordered_map>
-#inlcude "owt/base/stream.h"
+#include "owt/base/stream.h"
 #include "owt/base/exception.h"
 #include "owt/base/localcamerastreamparameters.h"
 #include "owt/base/macros.h"

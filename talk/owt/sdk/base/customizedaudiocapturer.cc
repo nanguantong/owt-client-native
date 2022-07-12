@@ -145,6 +145,8 @@ int32_t CustomizedAudioCapturer::StopRecording() {
   if (thread_rec_) {
     thread_rec_->Stop();
     thread_rec_.reset();
+    //JDK case 114902, reset the time stamp for next clean session
+    last_thread_rec_end_time_ = 0;
   }
   return 0;
 }
