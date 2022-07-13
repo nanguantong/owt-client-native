@@ -164,7 +164,9 @@ class Stream {
   WebrtcVideoRendererD3D11Impl* d3d11_renderer_impl_;
 #endif
 #if defined(WEBRTC_LINUX)
+#if defined(WEBRTC_USE_X11)
   WebrtcVideoRendererVaImpl* va_renderer_impl_;
+#endif
 #endif
   StreamSourceInfo source_;
  private:

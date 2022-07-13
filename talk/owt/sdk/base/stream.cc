@@ -107,13 +107,25 @@ Stream::Stream(const std::string& id)
       id_(id) {}
 #elif defined(WEBRTC_LINUX)
 Stream::Stream()
-    : media_stream_(nullptr), renderer_impl_(nullptr), audio_renderer_impl_(nullptr), va_renderer_impl_(nullptr), ended_(false), id_("") {}
+    : media_stream_(nullptr), renderer_impl_(nullptr), audio_renderer_impl_(nullptr),
+#if defined(WEBRTC_USE_X11)
+    va_renderer_impl_(nullptr),
+#endif
+    ended_(false), id_("") {}
 Stream::Stream(MediaStreamInterface* media_stream, StreamSourceInfo source)
-    : media_stream_(nullptr),   va_renderer_impl_(nullptr),source_(source) {
+    : media_stream_(nullptr),
+#if defined(WEBRTC_USE_X11)
+    va_renderer_impl_(nullptr),
+#endif
+    source_(source) {
   MediaStream(media_stream);
 }
 Stream::Stream(const std::string& id)
-    : media_stream_(nullptr), renderer_impl_(nullptr),  audio_renderer_impl_(nullptr), va_renderer_impl_(nullptr), ended_(false), id_(id) {}
+    : media_stream_(nullptr), renderer_impl_(nullptr),  audio_renderer_impl_(nullptr),
+#if defined(WEBRTC_USE_X11)
+    va_renderer_impl_(nullptr),
+#endif
+    ended_(false), id_(id) {}
 #else
 Stream::Stream()
     : media_stream_(nullptr), renderer_impl_(nullptr), audio_renderer_impl_(nullptr), ended_(false), id_("") {}
@@ -290,7 +302,11 @@ void Stream::DetachVideoRenderer() {
     return;
 #elif defined(WEBRTC_LINUX)
   if (media_stream_ == nullptr ||
-      (renderer_impl_ == nullptr && va_renderer_impl_ == nullptr))
+      (renderer_impl_ == nullptr
+#if defined(WEBRTC_USE_X11)
+      && va_renderer_impl_ == nullptr
+#endif
+      ))
     return;
 #else
   if (media_stream_ == nullptr || renderer_impl_ == nullptr)
@@ -313,11 +329,13 @@ void Stream::DetachVideoRenderer() {
   }
 #endif
 #if defined(WEBRTC_LINUX)
+#if defined(WEBRTC_USE_X11)
   if (va_renderer_impl_ != nullptr) {
     video_tracks[0]->RemoveSink(va_renderer_impl_);
     delete va_renderer_impl_;
     va_renderer_impl_ = nullptr;
   }
+#endif
 #endif
 }
 
