@@ -23,4 +23,7 @@ group("default") {
               "//third_party/webrtc:video_engine_tests"
             ]
   }
+  if (owt_include_samples) {
+    deps += [ "//talk/owt:conf_sample" ]
+  }
 }

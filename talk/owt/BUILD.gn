@@ -554,3 +554,20 @@ if (owt_include_tests) {
     include_dirs = [ "sdk/include/cpp" ]
   }
 }
+
+if (owt_include_samples) {
+  executable("conf_sample") {
+    deps = [
+      ":owt"
+    ]
+    libs = [ "sioclient_tls" ]
+    include_dirs = [
+      "sdk/include/cpp",
+      "//third_party",
+    ]
+    sources = [
+      "sdk/sample/http.cc",
+      "sdk/sample/conf_main.cc",
+    ]
+  }
+}

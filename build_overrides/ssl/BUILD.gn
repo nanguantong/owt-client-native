@@ -14,7 +14,7 @@ if (owt_use_openssl) {
         "You must specify owt_openssl_lib_root when owt_use_openssl==true.")
     include_dirs = [ owt_openssl_header_root ]
     lib_dirs = [ owt_openssl_lib_root ]
-    if (is_ios) {
+    if (is_ios || is_linux) {
       libs = [
         "crypto",
         "ssl",

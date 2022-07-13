@@ -46,7 +46,7 @@ def gen_lib_path(scheme):
     out_lib = OUT_LIB % {'scheme': scheme}
     return os.path.join(HOME_PATH + r'/out', out_lib)
 
-def gngen(arch, ssl_root, msdk_root, quic_root, scheme, tests, use_gcc, fake_audio):
+def gngen(arch, ssl_root, msdk_root, quic_root, scheme, tests, samples, use_gcc, fake_audio):
     gn_args = list(GN_ARGS)
     gn_args.append('target_cpu="%s"' % arch)
     if scheme == 'release':
@@ -86,6 +86,10 @@ def gngen(arch, ssl_root, msdk_root, quic_root, scheme, tests, use_gcc, fake_aud
     else:
         gn_args.append('rtc_include_tests=false')
         gn_args.append('owt_include_tests=false')
+    if samples:
+        gn_args.append('owt_include_samples=true')
+    else:
+        gn_args.append('owt_include_samples=false')
     if use_gcc:
         gn_args.extend(['is_clang=false', 'use_lld=false', 'use_sysroot=false', 'treat_warnings_as_errors=false'])
     if fake_audio:
@@ -168,6 +172,8 @@ def main():
                         help='Explicitly ninja file generation.')
     parser.add_argument('--tests', default=False, action='store_true',
                         help='Run unit tests.')
+    parser.add_argument('--samples', default=False, action='store_true',
+                        help='To build samples.')
     parser.add_argument('--sdk', default=False, action='store_true',
                         help='To build sdk lib.')
     parser.add_argument('--docs', default=False, action='store_true',
@@ -179,7 +185,7 @@ def main():
     opts = parser.parse_args()
     print(opts)
     if opts.gn_gen:
-        if not gngen(opts.arch, opts.ssl_root, opts.msdk_root, opts.quic_root, opts.scheme, opts.tests, opts.use_gcc, opts.fake_audio):
+        if not gngen(opts.arch, opts.ssl_root, opts.msdk_root, opts.quic_root, opts.scheme, opts.tests, opts.samples, opts.use_gcc, opts.fake_audio):
             return 1
     if opts.sdk:
          if not ninjabuild(opts.arch, opts.scheme):

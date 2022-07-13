@@ -13,7 +13,6 @@
 #include <string>
 #include "webrtc/rtc_base/logging.h"
 #include "webrtc/rtc_base/task_queue.h"
-#include "talk/owt/include/sio_message.h"
 #include "talk/owt/include/sio_client.h"
 #include "talk/owt/sdk/conference/conferencesocketsignalingchannel.h"
 #include "talk/owt/sdk/include/cpp/owt/base/exception.h"

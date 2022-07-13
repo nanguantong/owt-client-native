@@ -70,6 +70,9 @@ declare_args() {
   # Includes tests.
   owt_include_tests = false
 
+  # Includes samples.
+  owt_include_samples = false
+
   # Include quic support
   owt_use_quic = false
   owt_quic_header_root = ""

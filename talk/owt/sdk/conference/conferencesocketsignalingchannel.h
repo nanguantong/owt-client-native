@@ -9,7 +9,6 @@
 #include <random>
 #include <unordered_map>
 #include "talk/owt/include/sio_client.h"
-#include "talk/owt/include/sio_message.h"
 #include "talk/owt/sdk/include/cpp/owt/conference/conferenceclient.h"
 #include "talk/owt/sdk/include/cpp/owt/conference/user.h"
 namespace owt {
