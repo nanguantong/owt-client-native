@@ -119,10 +119,12 @@ class Stream {
   virtual void AttachAudioPlayer(AudioPlayerInterface& player);
 
 #if defined(WEBRTC_LINUX)
+#if defined(WEBRTC_USE_X11)
   /// Attach the stream to a Linux VA renderer.
   virtual void AttachVideoRenderer(VideoRendererVaInterface& renderer);
-
 #endif
+#endif
+
 #if defined(WEBRTC_WIN) || defined(WEBRTC_LINUX)
   /// Attach the stream to a renderer to receive ARGB/I420 frames for local or
   /// remote stream. Be noted if you turned hardware acceleration on, calling

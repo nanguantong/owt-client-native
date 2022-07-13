@@ -13,6 +13,7 @@ namespace owt {
 namespace base {
 
 #if defined(WEBRTC_LINUX)
+#if defined(WEBRTC_USE_X11)
 class WebrtcVideoRendererVaImpl
     : public rtc::VideoSinkInterface<webrtc::VideoFrame> {
  public:
@@ -24,6 +25,7 @@ class WebrtcVideoRendererVaImpl
  private:
   VideoRendererVaInterface& renderer_;
 };
+#endif
 #endif
 }  // namespace base
 }  // namespace owt

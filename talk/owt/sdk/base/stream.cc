@@ -230,6 +230,7 @@ void Stream::AttachVideoRenderer(VideoRendererInterface& renderer) {
 #endif
 
 #if defined(WEBRTC_LINUX)
+#if defined(WEBRTC_USE_X11)
 void Stream::AttachVideoRenderer(VideoRendererVaInterface& renderer) {
   if (media_stream_ == nullptr) {
     RTC_LOG(LS_ERROR) << "Cannot attach an audio only stream to a renderer.";
@@ -253,7 +254,7 @@ void Stream::AttachVideoRenderer(VideoRendererVaInterface& renderer) {
     delete old_renderer;
   RTC_LOG(LS_INFO) << "Attached the stream to a renderer.";
 }
-
+#endif
 #endif
 
 #if defined(WEBRTC_WIN)

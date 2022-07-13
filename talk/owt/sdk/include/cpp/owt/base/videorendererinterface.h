@@ -87,6 +87,7 @@ class VideoRenderWindow {
 #endif
 #endif
 #if defined(WEBRTC_LINUX)
+#if defined(WEBRTC_USE_X11)
 typedef void (*PFN_RETURN_BUFFER)(void *data, uint32_t bufid);
 typedef void* VADisplay;        /* window system dependent */
 typedef unsigned int VASurfaceID;
@@ -119,6 +120,7 @@ class VideoRendererVaInterface {
   virtual void RenderFrame(std::unique_ptr<VaSurface> surface) = 0;
   virtual ~VideoRendererVaInterface() {}
 };
+#endif
 #endif
 /// Interface for rendering VideoFrames in ARGB/I420 format from a VideoTrack.
 class VideoRendererInterface {
