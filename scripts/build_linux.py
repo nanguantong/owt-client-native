@@ -48,6 +48,7 @@ def gen_lib_path(scheme):
 
 def gngen(arch, ssl_root, msdk_root, quic_root, scheme, tests, samples, use_gcc, fake_audio):
     gn_args = list(GN_ARGS)
+    gn_args.append('target_os="linux"')
     gn_args.append('target_cpu="%s"' % arch)
     if scheme == 'release':
         gn_args.append('is_debug=false')
