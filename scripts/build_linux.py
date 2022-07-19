@@ -28,6 +28,11 @@ GN_ARGS = [
     'rtc_use_h265=true',
     'is_component_build=false',
     'rtc_build_examples=false',
+    #'use_libjpeg_turbo=false',
+    #'use_system_libjpeg=true',
+    'clang_use_chrome_plugins=false',
+    'rtc_enable_protobuf=false',
+    'rtc_include_pulse_audio=false',
     # Disable usage of GTK.
     'rtc_use_gtk=false',
     # When is_clang is false, we're not using sysroot in tree.

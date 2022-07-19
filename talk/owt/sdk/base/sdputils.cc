@@ -43,9 +43,9 @@ std::string SdpUtils::SetPreferAudioCodecs(const std::string& original_sdp,
 }
 std::string SdpUtils::SetPreferVideoCodecs(const std::string& original_sdp,
                                           std::vector<VideoCodec>& codec, bool qos_mode) {
-  std::string cur_sdp(original_sdp);
   if (codec.size() == 0 && !qos_mode)
-    return cur_sdp;
+    return original_sdp;
+  std::string cur_sdp(original_sdp);
   std::vector<VideoCodec> rcodecs(codec.rbegin(), codec.rend());
   std::vector<std::string> codec_names;
   for (auto codec_current : rcodecs) {

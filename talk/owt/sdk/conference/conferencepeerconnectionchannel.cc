@@ -32,8 +32,8 @@ enum ConferencePeerConnectionChannel::SessionState : int {
 };
 enum ConferencePeerConnectionChannel::NegotiationState : int {
   kNegotiationStateNone = 1,  // Indicates not in renegotiation.
-  kNegotiationStateSent,  // Indicates a negotiation request has been sent to
-                          // remote user.
+  kNegotiationStateSent,      // Indicates a negotiation request has been sent to
+                              // remote user.
   kNegotiationStateReceived,  // Indicates local side has received a negotiation
                               // request from remote user.
   kNegotiationStateAccepted,  // Indicates local side has accepted remote user's
