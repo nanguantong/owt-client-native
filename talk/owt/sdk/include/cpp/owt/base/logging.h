@@ -32,6 +32,8 @@ class Logging final {
   static void LogToConsole(LoggingSeverity severity);
   /// Set logging to files under provided dir rotately.
   static void LogToFileRotate(LoggingSeverity severity, std::string& dir, size_t max_log_size);
+  /// Set logging out timestamps and thread id
+  static void Detail();
  private:
   static LoggingSeverity min_severity_;
 };

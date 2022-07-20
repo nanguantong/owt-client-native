@@ -162,15 +162,16 @@ void PeerConnectionDependencyFactory::
     RTC_NOTREACHED();
     return;
   }
+
   worker_thread = rtc::Thread::CreateWithSocketServer();
-
   worker_thread->SetName("worker_thread", nullptr);
+
   signaling_thread = rtc::Thread::CreateWithSocketServer();
-
   signaling_thread->SetName("signaling_thread", nullptr);
-  network_thread = rtc::Thread::CreateWithSocketServer();
 
+  network_thread = rtc::Thread::CreateWithSocketServer();
   network_thread->SetName("network_thread", nullptr);
+
   RTC_CHECK(worker_thread->Start() && signaling_thread->Start() &&
             network_thread->Start())
       << "Failed to start threads";

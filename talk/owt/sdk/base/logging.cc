@@ -44,5 +44,9 @@ void Logging::LogToFileRotate(LoggingSeverity severity, std::string& dir, size_t
 LoggingSeverity Logging::Severity() {
   return min_severity_;
 }
+void Logging::Detail() {
+  rtc::LogMessage::LogTimestamps(true);
+  rtc::LogMessage::LogThreads(true);
+}
 }
 }
