@@ -108,13 +108,13 @@ Stream::Stream(const std::string& id)
 #elif defined(WEBRTC_LINUX)
 Stream::Stream()
     : media_stream_(nullptr), renderer_impl_(nullptr), audio_renderer_impl_(nullptr),
-#if defined(WEBRTC_USE_X11)
+#if defined(OWT_ENABLE_VA)
     va_renderer_impl_(nullptr),
 #endif
     ended_(false), id_("") {}
 Stream::Stream(MediaStreamInterface* media_stream, StreamSourceInfo source)
     : media_stream_(nullptr),
-#if defined(WEBRTC_USE_X11)
+#if defined(OWT_ENABLE_VA)
     va_renderer_impl_(nullptr),
 #endif
     source_(source) {
@@ -122,7 +122,7 @@ Stream::Stream(MediaStreamInterface* media_stream, StreamSourceInfo source)
 }
 Stream::Stream(const std::string& id)
     : media_stream_(nullptr), renderer_impl_(nullptr),  audio_renderer_impl_(nullptr),
-#if defined(WEBRTC_USE_X11)
+#if defined(OWT_ENABLE_VA)
     va_renderer_impl_(nullptr),
 #endif
     ended_(false), id_(id) {}
@@ -242,7 +242,7 @@ void Stream::AttachVideoRenderer(VideoRendererInterface& renderer) {
 #endif
 
 #if defined(WEBRTC_LINUX)
-#if defined(WEBRTC_USE_X11)
+#if defined(OWT_ENABLE_VA)
 void Stream::AttachVideoRenderer(VideoRendererVaInterface& renderer) {
   if (media_stream_ == nullptr) {
     RTC_LOG(LS_ERROR) << "Cannot attach an audio only stream to a renderer.";
@@ -303,7 +303,7 @@ void Stream::DetachVideoRenderer() {
 #elif defined(WEBRTC_LINUX)
   if (media_stream_ == nullptr ||
       (renderer_impl_ == nullptr
-#if defined(WEBRTC_USE_X11)
+#if defined(OWT_ENABLE_VA)
       && va_renderer_impl_ == nullptr
 #endif
       ))
@@ -329,7 +329,7 @@ void Stream::DetachVideoRenderer() {
   }
 #endif
 #if defined(WEBRTC_LINUX)
-#if defined(WEBRTC_USE_X11)
+#if defined(OWT_ENABLE_VA)
   if (va_renderer_impl_ != nullptr) {
     video_tracks[0]->RemoveSink(va_renderer_impl_);
     delete va_renderer_impl_;

@@ -78,6 +78,9 @@ declare_args() {
   owt_quic_header_root = ""
   owt_quic_lib_root = ""
 
+  # If or not va support
+  owt_use_va = false
+
   # Some non-Chromium builds don't support building java targets.
   enable_java_templates = true
 

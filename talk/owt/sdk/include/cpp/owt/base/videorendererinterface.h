@@ -87,7 +87,7 @@ class VideoRenderWindow {
 #endif
 #endif
 #if defined(WEBRTC_LINUX)
-#if defined(WEBRTC_USE_X11)
+#if defined(OWT_ENABLE_VA)
 typedef void (*PFN_RETURN_BUFFER)(void *data, uint32_t bufid);
 typedef void* VADisplay;        /* window system dependent */
 typedef unsigned int VASurfaceID;

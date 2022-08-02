@@ -13,7 +13,7 @@ namespace owt {
 namespace base {
 
 #if defined(WEBRTC_LINUX)
-#if defined(WEBRTC_USE_X11)
+#if defined(OWT_ENABLE_VA)
 class WebrtcVideoRendererVaImpl
     : public rtc::VideoSinkInterface<webrtc::VideoFrame> {
  public:
