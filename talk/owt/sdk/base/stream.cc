@@ -107,25 +107,13 @@ Stream::Stream(const std::string& id)
       id_(id) {}
 #elif defined(WEBRTC_LINUX)
 Stream::Stream()
-    : media_stream_(nullptr), renderer_impl_(nullptr), audio_renderer_impl_(nullptr),
-#if defined(OWT_ENABLE_VA)
-    va_renderer_impl_(nullptr),
-#endif
-    ended_(false), id_("") {}
+    : media_stream_(nullptr), renderer_impl_(nullptr), audio_renderer_impl_(nullptr), va_renderer_impl_(nullptr), ended_(false), id_("") {}
 Stream::Stream(MediaStreamInterface* media_stream, StreamSourceInfo source)
-    : media_stream_(nullptr),
-#if defined(OWT_ENABLE_VA)
-    va_renderer_impl_(nullptr),
-#endif
-    source_(source) {
+    : media_stream_(nullptr), va_renderer_impl_(nullptr), source_(source) {
   MediaStream(media_stream);
 }
 Stream::Stream(const std::string& id)
-    : media_stream_(nullptr), renderer_impl_(nullptr),  audio_renderer_impl_(nullptr),
-#if defined(OWT_ENABLE_VA)
-    va_renderer_impl_(nullptr),
-#endif
-    ended_(false), id_(id) {}
+    : media_stream_(nullptr), renderer_impl_(nullptr),  audio_renderer_impl_(nullptr), va_renderer_impl_(nullptr), ended_(false), id_(id) {}
 #else
 Stream::Stream()
     : media_stream_(nullptr), renderer_impl_(nullptr), audio_renderer_impl_(nullptr), ended_(false), id_("") {}
@@ -242,7 +230,6 @@ void Stream::AttachVideoRenderer(VideoRendererInterface& renderer) {
 #endif
 
 #if defined(WEBRTC_LINUX)
-#if defined(OWT_ENABLE_VA)
 void Stream::AttachVideoRenderer(VideoRendererVaInterface& renderer) {
   if (media_stream_ == nullptr) {
     RTC_LOG(LS_ERROR) << "Cannot attach an audio only stream to a renderer.";
@@ -266,7 +253,6 @@ void Stream::AttachVideoRenderer(VideoRendererVaInterface& renderer) {
     delete old_renderer;
   RTC_LOG(LS_INFO) << "Attached the stream to a renderer.";
 }
-#endif
 #endif
 
 #if defined(WEBRTC_WIN)
@@ -302,11 +288,7 @@ void Stream::DetachVideoRenderer() {
     return;
 #elif defined(WEBRTC_LINUX)
   if (media_stream_ == nullptr ||
-      (renderer_impl_ == nullptr
-#if defined(OWT_ENABLE_VA)
-      && va_renderer_impl_ == nullptr
-#endif
-      ))
+      (renderer_impl_ == nullptr && va_renderer_impl_ == nullptr))
     return;
 #else
   if (media_stream_ == nullptr || renderer_impl_ == nullptr)
@@ -329,13 +311,11 @@ void Stream::DetachVideoRenderer() {
   }
 #endif
 #if defined(WEBRTC_LINUX)
-#if defined(OWT_ENABLE_VA)
   if (va_renderer_impl_ != nullptr) {
     video_tracks[0]->RemoveSink(va_renderer_impl_);
     delete va_renderer_impl_;
     va_renderer_impl_ = nullptr;
   }
-#endif
 #endif
 }
 

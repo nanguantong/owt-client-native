@@ -2,9 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 #include "talk/owt/sdk/base/linux/videorenderlinux.h"
-#if defined(OWT_ENABLE_VA)
 #include "talk/owt/sdk/base/linux/xwindownativeframe.h"
-#endif
 #include "talk/owt/sdk/base/nativehandlebuffer.h"
 #include "talk/owt/sdk/base/webrtcvideorendererimpl.h"
 #include "webrtc/common_video/libyuv/include/webrtc_libyuv.h"
@@ -13,7 +11,6 @@ namespace owt {
 namespace base {
 
 #if defined(WEBRTC_LINUX)
-#if defined(OWT_ENABLE_VA)
 void WebrtcVideoRendererVaImpl::OnFrame(const webrtc::VideoFrame& frame) {
   if (frame.video_frame_buffer()->type() !=
       webrtc::VideoFrameBuffer::Type::kNative)
@@ -32,7 +29,6 @@ void WebrtcVideoRendererVaImpl::OnFrame(const webrtc::VideoFrame& frame) {
 		    native_handle->data, native_handle->pfnReturnBuffer});
   renderer_.RenderFrame(std::move(va_surface));
 }
-#endif
 #endif
 
 }  // namespace base

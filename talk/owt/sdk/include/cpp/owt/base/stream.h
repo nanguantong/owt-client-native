@@ -119,10 +119,8 @@ class Stream {
   virtual void AttachAudioPlayer(AudioPlayerInterface& player);
 
 #if defined(WEBRTC_LINUX)
-#if defined(OWT_ENABLE_VA)
   /// Attach the stream to a Linux VA renderer.
   virtual void AttachVideoRenderer(VideoRendererVaInterface& renderer);
-#endif
 #endif
 
 #if defined(WEBRTC_WIN) || defined(WEBRTC_LINUX)
@@ -164,9 +162,7 @@ class Stream {
   WebrtcVideoRendererD3D11Impl* d3d11_renderer_impl_;
 #endif
 #if defined(WEBRTC_LINUX)
-#if defined(OWT_ENABLE_VA)
   WebrtcVideoRendererVaImpl* va_renderer_impl_;
-#endif
 #endif
   StreamSourceInfo source_;
  private:
