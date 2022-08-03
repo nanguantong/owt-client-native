@@ -5,10 +5,6 @@
 #ifndef OWT_BASE_LINUX_XWINDOWNATIVEFRAME_H_
 #define OWT_BASE_LINUX_XWINDOWNATIVEFRAME_H_
 
-#if defined(OWT_ENABLE_VA)
-#include <va/va.h>
-#endif
-
 namespace owt {
 namespace base {
 

@@ -320,9 +320,9 @@ retry:
              {
                 if(pmsdkDecSurfaces[i].frame->Data.MemId == pOutputSurface->Data.MemId)
                 {
-                     msdk_atomic_inc16(&(pmsdkDecSurfaces[i].render_lock));
-                     bufid = i;
-		     break;
+                    msdk_atomic_inc16(&(pmsdkDecSurfaces[i].render_lock));
+                    bufid = i;
+                    break;
                 }
              }
           }
@@ -332,7 +332,7 @@ retry:
           xwindow_context->height_   = pOutputSurface->Info.CropH;
           xwindow_context->frameno   = frame_num;
           xwindow_context->bufferid  = bufid;
-	  xwindow_context->data      = this; 
+          xwindow_context->data      = this; 
           xwindow_context->pfnReturnBuffer = reinterpret_cast<void *>(ReturnBuffer);
          
           rtc::scoped_refptr<owt::base::NativeHandleBuffer> buffer =
