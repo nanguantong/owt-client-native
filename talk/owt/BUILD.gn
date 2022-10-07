@@ -561,12 +561,19 @@ if (owt_include_samples) {
       ":owt"
     ]
     cflags = [ "-include./talk/owt/sdk/sample/glibc-2.19.h" ]
-    lib_dirs = [ "socket.io-client-cpp/" ]
-    libs = [ "sioclient_tls" ]
+
     include_dirs = [
       "sdk/include/cpp",
       "//third_party",
     ]
+
+    lib_dirs = [ "socket.io-client-cpp/" ]
+    libs = [ "sioclient_tls" ]
+
+    include_dirs += [ "/opt/sdl2-aarch64/include" ]
+    lib_dirs += [ "/opt/sdl2-aarch64/lib" ]
+    libs += [ "SDL2" ]
+
     sources = [
       "sdk/sample/conf_main.cc",
     ]
