@@ -560,7 +560,7 @@ if (owt_include_samples) {
     deps = [
       ":owt"
     ]
-    cflags = [ "-include./talk/owt/sdk/sample/glibc-2.19.h" ]
+    #cflags = [ "-include./talk/owt/sdk/sample/glibc-2.19.h" ]
 
     include_dirs = [
       "sdk/include/cpp",
