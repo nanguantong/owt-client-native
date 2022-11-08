@@ -14,6 +14,7 @@ namespace sio
         const std::string& get_name() const;
         
         const message::ptr& get_message() const;
+
         const message::list& get_messages() const;
         
         bool need_ack() const;
@@ -25,6 +26,7 @@ namespace sio
     protected:
         event(std::string const& nsp,std::string const& name,message::list const& messages,bool need_ack);
         event(std::string const& nsp,std::string const& name,message::list&& messages,bool need_ack);
+
         message::list& get_ack_message_impl();
         
     private:
@@ -67,12 +69,14 @@ namespace sio
         void on_error(error_listener const& l);
         
         void off_error();
+
         void emit(std::string const& name, message::list const& msglist = nullptr, std::function<void (message::list const&)> const& ack = nullptr);
         
         std::string const& get_namespace() const;
         
     protected:
-        socket(client_impl*,std::string const&);
+        socket(client_impl*,std::string const&,message::ptr const&);
+
         void on_connected();
         
         void on_close();
@@ -87,8 +91,9 @@ namespace sio
         
     private:
         //disable copy constructor and assign operator.
-        socket(socket const& sock){}
-        void operator=(socket const& sock){}
+        socket(socket const&){}
+        void operator=(socket const&){}
+
         class impl;
         impl *m_impl;
     };
