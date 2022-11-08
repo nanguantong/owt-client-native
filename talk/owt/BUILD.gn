@@ -564,7 +564,6 @@ if (owt_include_samples) {
 
     include_dirs = [
       "sdk/include/cpp",
-      "//third_party",
     ]
 
     #lib_dirs = [ "/opt/socket.io-client-cpp-armv7l/lib/" ]
