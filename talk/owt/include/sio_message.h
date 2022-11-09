@@ -29,7 +29,7 @@ namespace sio
             flag_null
         };
 
-        virtual ~message(){};
+        virtual ~message(){}
 
         class list;
 
