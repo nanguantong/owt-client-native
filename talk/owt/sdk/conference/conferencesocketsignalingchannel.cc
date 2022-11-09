@@ -127,7 +127,9 @@ void ConferenceSocketSignalingChannel::Connect(
     }
     return;
   }
-  std::string scheme("http://");
+  bool secure = false;
+  rtc::GetBoolFromJsonObject(json_token, "secure", &secure);
+  std::string scheme(secure ? "https://" : "http://");
   std::string host;
   rtc::GetStringFromJsonObject(json_token, "host", &host);
   std::weak_ptr<ConferenceSocketSignalingChannel> weak_this =
