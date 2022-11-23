@@ -157,6 +157,7 @@ void ConferencePublication::OnStreamRemoved(const std::string& stream_id) {
 }
 
 void ConferencePublication::OnStreamError(const std::string& error_msg) {
+  const std::lock_guard<std::mutex> lock(observer_mutex_);
   for (auto its = observers_.begin(); its != observers_.end(); ++its) {
     std::unique_ptr<Exception> e(new Exception(
         ExceptionType::kConferenceUnknown, error_msg));

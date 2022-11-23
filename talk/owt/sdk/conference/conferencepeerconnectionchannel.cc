@@ -363,11 +363,9 @@ void ConferencePeerConnectionChannel::OnSetRemoteSessionDescriptionFailure(
   OnStreamError(std::string("Failed to set remote description."));
 }
 void ConferencePeerConnectionChannel::SetRemoteDescription(
-    const std::string& type,
-    const std::string& sdp) {
+    const std::string& type, const std::string& sdp) {
   std::unique_ptr<webrtc::SessionDescriptionInterface> desc(
-      webrtc::CreateSessionDescription(
-      "answer", sdp,
+      webrtc::CreateSessionDescription("answer", sdp,
       nullptr));  // TODO(jianjun): change answer to type.toLowerCase.
   if (!desc) {
     RTC_LOG(LS_ERROR) << "Failed to create session description.";
@@ -858,7 +856,7 @@ void ConferencePeerConnectionChannel::GetConnectionStats(
     return;
   }
   if (subscribed_stream_ || published_stream_) {
-    rtc::scoped_refptr<FunctionalStandardRTCStatsCollectorCallback> observer =
+    scoped_refptr<FunctionalStandardRTCStatsCollectorCallback> observer =
         FunctionalStandardRTCStatsCollectorCallback::Create(
             std::move(on_success));
     peer_connection_->GetStats(observer);
@@ -891,9 +889,9 @@ void ConferencePeerConnectionChannel::OnSignalingMessage(
       if (publish_success_callback_) {
         event_queue_->PostTask([weak_this] {
           auto that = weak_this.lock();
-          std::lock_guard<std::mutex> lock(that->callback_mutex_);
           if (!that || !that->publish_success_callback_)
             return;
+          std::lock_guard<std::mutex> lock(that->callback_mutex_);
           that->publish_success_callback_(that->GetSessionId());
           that->ResetCallbacks();
         });
@@ -906,9 +904,9 @@ void ConferencePeerConnectionChannel::OnSignalingMessage(
           if (stream_added) {
             event_queue_->PostTask([weak_this] {
               auto that = weak_this.lock();
-              std::lock_guard<std::mutex> lock(that->callback_mutex_);
               if (!that || !that->subscribe_success_callback_)
                 return;
+              std::lock_guard<std::mutex> lock(that->callback_mutex_);
               that->subscribe_success_callback_(that->GetSessionId());
               that->ResetCallbacks();
             });
@@ -924,9 +922,9 @@ void ConferencePeerConnectionChannel::OnSignalingMessage(
             shared_from_this();
         event_queue_->PostTask([weak_this] {
           auto that = weak_this.lock();
-          std::lock_guard<std::mutex> lock(that->callback_mutex_);
           if (!that || !that->failure_callback_)
             return;
+          std::lock_guard<std::mutex> lock(that->callback_mutex_);
           std::unique_ptr<Exception> e(new Exception(
               ExceptionType::kConferenceUnknown,
               "Server internal error during connection establishment."));
@@ -1056,9 +1054,12 @@ void ConferencePeerConnectionChannel::OnStreamError(
   std::shared_ptr<const Exception> e(
       new Exception(ExceptionType::kConferenceUnknown, error_message));
   std::shared_ptr<Stream> error_stream;
-  for (auto its = observers_.begin(); its != observers_.end(); ++its) {
-    RTC_LOG(LS_INFO) << "On stream error.";
-    (*its).get().OnStreamError(error_stream, e);
+  {
+    const std::lock_guard<std::mutex> lock(observers_mutex_);
+    for (auto its = observers_.begin(); its != observers_.end(); ++its) {
+      RTC_LOG(LS_INFO) << "On stream error.";
+      (*its).get().OnStreamError(error_stream, e);
+    }
   }
   if (published_stream_) {
     Unpublish(GetSessionId(), nullptr, nullptr);

@@ -19,10 +19,11 @@ ConferenceSubscription::ConferenceSubscription(std::shared_ptr<ConferenceClient>
         ended_(false),
         conference_client_(client) {
   auto that = conference_client_.lock();
-  if (that != nullptr)
+  if (that != nullptr) {
     event_queue_ = that->event_queue_;
-  if (that != nullptr && !ended_) {
-    that->AddStreamUpdateObserver(*this);
+    if (!ended_) {
+      that->AddStreamUpdateObserver(*this);
+    }
   }
 }
 ConferenceSubscription::~ConferenceSubscription() {
@@ -67,8 +68,7 @@ void ConferenceSubscription::Unmute(
     std::function<void(std::unique_ptr<Exception>)> on_failure) {
    auto that = conference_client_.lock();
    if (that == nullptr || ended_) {
-     std::string failure_message(
-        "Session ended.");
+     std::string failure_message("Session ended.");
      if (on_failure != nullptr && event_queue_.get()) {
        event_queue_->PostTask([on_failure, failure_message]() {
          std::unique_ptr<Exception> e(new Exception(
@@ -78,8 +78,7 @@ void ConferenceSubscription::Unmute(
      }
    } else {
      std::weak_ptr<ConferenceSubscription> weak_this = shared_from_this();
-     that->Unmute(id_, track_kind,
-       [on_success, weak_this, track_kind]() {
+     that->Unmute(id_, track_kind, [on_success, weak_this, track_kind]() {
        auto that_cs = weak_this.lock();
        if (!that_cs || that_cs->Ended())
          return;
@@ -98,8 +97,7 @@ void ConferenceSubscription::GetStats(
     std::function<void(std::unique_ptr<Exception>)> on_failure) {
    auto that = conference_client_.lock();
    if (that == nullptr || ended_) {
-     std::string failure_message(
-        "Session ended.");
+     std::string failure_message("Session ended.");
      if (on_failure != nullptr && event_queue_.get()) {
        event_queue_->PostTask([on_failure, failure_message]() {
          std::unique_ptr<Exception> e(new Exception(
@@ -136,8 +134,7 @@ void ConferenceSubscription::ApplyOptions(
   std::function<void(std::unique_ptr<Exception>)> on_failure) {
   auto that = conference_client_.lock();
   if (that == nullptr || ended_) {
-    std::string failure_message(
-      "Session ended.");
+    std::string failure_message("Session ended.");
     if (on_failure != nullptr && event_queue_.get()) {
       event_queue_->PostTask([on_failure, failure_message]() {
         std::unique_ptr<Exception> e(new Exception(
@@ -156,8 +153,7 @@ void ConferenceSubscription::GetNativeStats(
     std::function<void(std::unique_ptr<Exception>)> on_failure) {
      auto that = conference_client_.lock();
    if (that == nullptr || ended_) {
-     std::string failure_message(
-        "Session ended.");
+     std::string failure_message("Session ended.");
      if (on_failure != nullptr && event_queue_.get()) {
        event_queue_->PostTask([on_failure, failure_message]() {
          std::unique_ptr<Exception> e(new Exception(
@@ -202,6 +198,7 @@ void ConferenceSubscription::OnStreamRemoved(const std::string& stream_id) {
 }
 
 void ConferenceSubscription::OnStreamError(const std::string& error_msg) {
+  const std::lock_guard<std::mutex> lock(observer_mutex_);
   for (auto its = observers_.begin(); its != observers_.end(); ++its) {
     std::unique_ptr<Exception> e(
         new Exception(ExceptionType::kConferenceUnknown, error_msg));

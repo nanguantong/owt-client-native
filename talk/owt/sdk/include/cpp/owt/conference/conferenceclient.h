@@ -165,7 +165,7 @@ class ConferenceInfo {
     std::vector<std::shared_ptr<Participant>> participants_;    // Participants in the conference
     mutable std::mutex remote_streams_mutex_;
     std::vector<std::shared_ptr<RemoteStream>> remote_streams_; // Remote streams in the conference.
-    std::shared_ptr<Participant> self_;                           // Self participant in the conference.
+    std::shared_ptr<Participant> self_;                         // Self participant in the conference.
 };
 /** @cond */
 class ConferenceSocketSignalingChannelObserver {
@@ -220,14 +220,12 @@ class ConferenceClientObserver {
     @brief Triggers when a stream is added.
     @param stream The stream which is added.
   */
-  virtual void OnStreamAdded(
-      std::shared_ptr<RemoteStream> stream){}
+  virtual void OnStreamAdded(std::shared_ptr<RemoteStream> stream){}
   /**
     @brief Triggers when a mixed stream is added.
     @param stream The stream which is added.
   */
-  virtual void OnStreamAdded(
-      std::shared_ptr<RemoteMixedStream> stream){}
+  virtual void OnStreamAdded(std::shared_ptr<RemoteMixedStream> stream){}
   /**
     @brief Triggers when a message is received.
     @param message Message received.
@@ -461,8 +459,7 @@ class ConferenceClient final
   /// trigger |on_failure|
   bool CheckSignalingChannelOnline(
       std::function<void(std::unique_ptr<Exception>)> on_failure);
-  PeerConnectionChannelConfiguration GetPeerConnectionChannelConfiguration()
-      const;
+  PeerConnectionChannelConfiguration GetPeerConnectionChannelConfiguration() const;
   // Get the |ConferencePeerConnectionChannel| instance associated with specific
   // |session_id|. Return |nullptr| if not found.
   std::shared_ptr<ConferencePeerConnectionChannel>
@@ -507,18 +504,15 @@ class ConferenceClient final
   // Key publish(session) ID from server, value is MediaStream's label
   std::unordered_map<std::string, std::string> publish_id_label_map_;
   // Store the peer connection channels created.
-  std::vector<std::shared_ptr<ConferencePeerConnectionChannel>>
-      publish_pcs_;
+  std::vector<std::shared_ptr<ConferencePeerConnectionChannel>> publish_pcs_;
   mutable std::mutex publish_pcs_mutex_;
   // Key is subcription ID from server.
-  std::vector<std::shared_ptr<ConferencePeerConnectionChannel>>
-      subscribe_pcs_;
+  std::vector<std::shared_ptr<ConferencePeerConnectionChannel>> subscribe_pcs_;
   // Key is subscription ID, value is streamID.
   std::unordered_map<std::string, std::string> subscribe_id_label_map_;
   mutable std::mutex subscribe_pcs_mutex_;
   // Key is the stream ID(publication ID or mixed stream ID).
-  std::unordered_map<std::string, std::shared_ptr<RemoteStream>>
-      added_streams_;
+  std::unordered_map<std::string, std::shared_ptr<RemoteStream>> added_streams_;
   std::unordered_map<std::string, StreamType> added_stream_type_;
   mutable std::mutex conference_info_mutex_;
   // Store current conference info.

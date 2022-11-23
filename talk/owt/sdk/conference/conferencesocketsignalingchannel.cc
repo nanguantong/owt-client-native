@@ -260,8 +260,8 @@ void ConferenceSocketSignalingChannel::Connect(
               socket_client_->close();
               return;
             }
-            sio::message::ptr ack =
-                msg.at(0);  // The first element indicates the state.
+            // The first element indicates the state.
+            sio::message::ptr ack = msg.at(0);
             std::string state = ack->get_string();
             if (state == "error" || state == "timeout") {
               RTC_LOG(LS_WARNING)

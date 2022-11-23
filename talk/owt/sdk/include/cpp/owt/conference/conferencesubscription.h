@@ -48,8 +48,7 @@ class ConferenceSubscription : public ConferenceStreamUpdateObserver,
         std::function<void(std::shared_ptr<ConnectionStats>)> on_success,
         std::function<void(std::unique_ptr<Exception>)> on_failure);
     void GetNativeStats(
-        std::function<void(
-            const std::vector<const webrtc::StatsReport*>& reports)> on_success,
+        std::function<void(const std::vector<const webrtc::StatsReport*>& reports)> on_success,
         std::function<void(std::unique_ptr<Exception>)> on_failure);
     /// Get connection stats on current subscription.
     void GetStats(
@@ -85,7 +84,7 @@ class ConferenceSubscription : public ConferenceStreamUpdateObserver,
     bool ended_;
     mutable std::mutex observer_mutex_;
     std::vector<std::reference_wrapper<SubscriptionObserver>> observers_;
-    std::weak_ptr<ConferenceClient>  conference_client_;   // Weak ref to associated conference client
+    std::weak_ptr<ConferenceClient> conference_client_; // Weak ref to associated conference client
     std::shared_ptr<rtc::TaskQueue> event_queue_;
 #ifdef OWT_ENABLE_QUIC
     std::shared_ptr<owt::base::QuicStream> quic_stream_;
