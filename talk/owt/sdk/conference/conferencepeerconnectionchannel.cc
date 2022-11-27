@@ -105,6 +105,9 @@ void ConferencePeerConnectionChannel::RemoveObserver(
 
 void ConferencePeerConnectionChannel::CreateOffer() {
   RTC_LOG(LS_INFO) << "Create offer.";
+  if (!peer_connection_) {
+    return;
+  }
   scoped_refptr<FunctionalCreateSessionDescriptionObserver> observer =
       FunctionalCreateSessionDescriptionObserver::Create(
           std::bind(&ConferencePeerConnectionChannel::
@@ -136,6 +139,9 @@ void ConferencePeerConnectionChannel::DoIceRestart() {
 
 void ConferencePeerConnectionChannel::CreateAnswer() {
   RTC_LOG(LS_INFO) << "Create answer.";
+  if (!peer_connection_) {
+    return;
+  }
   scoped_refptr<FunctionalCreateSessionDescriptionObserver> observer =
       FunctionalCreateSessionDescriptionObserver::Create(
           std::bind(&ConferencePeerConnectionChannel::
@@ -285,6 +291,9 @@ void ConferencePeerConnectionChannel::OnIceCandidatesRemoved(
 void ConferencePeerConnectionChannel::OnCreateSessionDescriptionSuccess(
     webrtc::SessionDescriptionInterface* desc) {
   RTC_LOG(LS_INFO) << "Create sdp success.";
+  if (!peer_connection_) {
+    return;
+  }
   scoped_refptr<FunctionalSetSessionDescriptionObserver> observer =
       FunctionalSetSessionDescriptionObserver::Create(
           std::bind(&ConferencePeerConnectionChannel::
@@ -364,6 +373,9 @@ void ConferencePeerConnectionChannel::OnSetRemoteSessionDescriptionFailure(
 }
 void ConferencePeerConnectionChannel::SetRemoteDescription(
     const std::string& type, const std::string& sdp) {
+  if (!peer_connection_) {
+    return;
+  }
   std::unique_ptr<webrtc::SessionDescriptionInterface> desc(
       webrtc::CreateSessionDescription("answer", sdp,
       nullptr));  // TODO(jianjun): change answer to type.toLowerCase.
@@ -832,6 +844,9 @@ void ConferencePeerConnectionChannel::GetConnectionStats(
     }
     return;
   }
+  if (!peer_connection_) {
+    return;
+  }
   if (subscribed_stream_ || published_stream_) {
     scoped_refptr<FunctionalStatsObserver> observer =
         FunctionalStatsObserver::Create(on_success);
@@ -855,6 +870,9 @@ void ConferencePeerConnectionChannel::GetConnectionStats(
     }
     return;
   }
+  if (!peer_connection_) {
+    return;
+  }
   if (subscribed_stream_ || published_stream_) {
     scoped_refptr<FunctionalStandardRTCStatsCollectorCallback> observer =
         FunctionalStandardRTCStatsCollectorCallback::Create(
@@ -867,6 +885,9 @@ void ConferencePeerConnectionChannel::GetStats(
     std::function<void(const webrtc::StatsReports& reports)> on_success,
     std::function<void(std::unique_ptr<Exception>)> on_failure) {
   if (!on_success) {
+    return;
+  }
+  if (!peer_connection_) {
     return;
   }
   scoped_refptr<FunctionalNativeStatsObserver> observer =
