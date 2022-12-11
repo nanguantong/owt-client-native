@@ -69,8 +69,7 @@ void ConferenceInfo::AddParticipant(std::shared_ptr<Participant> participant) {
   return;
 }
 void ConferenceInfo::AddOrUpdateStream(
-    std::shared_ptr<RemoteStream> remote_stream,
-    bool& update) {
+    std::shared_ptr<RemoteStream> remote_stream, bool& update) {
   update = false;
   std::string stream_id = remote_stream->Id();
   const std::lock_guard<std::mutex> lock(remote_streams_mutex_);
@@ -1379,7 +1378,7 @@ void ConferenceClient::ParseStreamInfo(sio::message::ptr stream_info,
         if (sample_rate_obj != nullptr)
           sample_rate = sample_rate_obj->get_int();
         if (channel_num_obj != nullptr)
-          channel_num = audio_format_obj->get_int();
+          channel_num = channel_num_obj->get_int();
         AudioCodecParameters audio_codec_param(
             MediaUtils::GetAudioCodecFromString(codec), channel_num,
             sample_rate);
@@ -1903,8 +1902,7 @@ void ConferenceClient::TriggerOnStreamUpdated(sio::message::ptr stream_info) {
          its != stream_update_observers_.end(); ++its) {
       (*its).get().OnStreamMuteOrUnmute(id, track_kind, muted);
     }
-    current_conference_info_->TriggerOnStreamMuteOrUnmute(id, track_kind,
-                                                          muted);
+    current_conference_info_->TriggerOnStreamMuteOrUnmute(id, track_kind, muted);
   } else if (event_field == ".") {
     // The value field contains an update to stream info
     auto value = event->get_map()["value"];
