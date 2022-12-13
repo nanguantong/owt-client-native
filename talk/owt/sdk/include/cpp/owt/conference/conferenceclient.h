@@ -140,7 +140,7 @@ class ConferenceInfo {
     std::shared_ptr<Participant> Self() const {
       return self_;
     }
-   protected:
+  protected:
     // Add participant.
     void AddParticipant(std::shared_ptr<Participant> participant);
     // Remove participant.
