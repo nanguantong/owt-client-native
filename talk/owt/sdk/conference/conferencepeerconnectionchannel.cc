@@ -217,7 +217,9 @@ void ConferencePeerConnectionChannel::OnIceConnectionChange(
     // TODO(jianlin): Change trigger condition back to kIceConnectionClosed
     // once conference server re-enables IceRestart and client supports it as well.
     if (connected_) {
-      OnStreamError(std::string("Stream ICE connection failed."));
+      event_queue_->PostTask([ptr = shared_from_this(), this]() {
+        OnStreamError(std::string("Stream ICE connection failed."));
+      });
     }
     connected_ = false;
   } else {
